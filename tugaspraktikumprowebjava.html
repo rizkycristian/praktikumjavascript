@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Mahasiswa TI</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        color: black;
+        text-align: center;
+        transition: 0.3s;
+      }
+
+      .dark {
+        background-color: #222;
+        color: white;
+      }
+
+      button {
+        margin: 5px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 5px;
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+      }
+
+      .card {
+        background: #f2f2f2;
+        border-radius: 8px;
+        padding: 10px;
+        width: 150px;
+        position: relative;
+      }
+
+      .dark .card {
+        background: #333;
+      }
+
+      .close {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        color: red;
+        cursor: pointer;
+      }
+
+      /* Popup */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 250px;
+      }
+
+      .popup-content input {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0;
+      }
+
+      .dark .popup-content {
+        background: #222;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Website Mahasiswa TI</h2>
+
+    <button id="mode_btn">🌙 Mode Malam</button>
+    <button id="add_btn">➕ Tambah Card</button>
+    <button id="form_btn">📝 Popup Form</button>
+    <button id="nim_btn">🔍 Cek KOM</button>
+
+    <div id="cards" class="card-container"></div>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h3>Form Mahasiswa</h3>
+        <input type="text" placeholder="Nama" />
+        <input type="text" placeholder="NIM" />
+        <button onclick="tutupPopup()">Tutup</button>
+      </div>
+    </div>
+
+    <script>
+      // ====== MODE MALAM ======
+      const modeBtn = document.getElementById('mode_btn')
+      modeBtn.onclick = function () {
+        document.body.classList.toggle('dark')
+        if (document.body.classList.contains('dark')) {
+          modeBtn.textContent = '☀️ Mode Siang'
+        } else {
+          modeBtn.textContent = '🌙 Mode Malam'
+        }
+      }
+
+      // ====== TAMBAH DAN HAPUS CARD ======
+      const addBtn = document.getElementById('add_btn')
+      const cards = document.getElementById('cards')
+      let nomor = 1
+
+      addBtn.onclick = function () {
+        const card = document.createElement('div')
+        card.className = 'card'
+        card.innerHTML = `
+          <span class="close">×</span>
+          <h4>Card ${nomor}</h4>
+          <p>Ini card ke-${nomor}</p>
+        `
+        cards.appendChild(card)
+        nomor++
+
+        // Tombol hapus
+        card.querySelector('.close').onclick = function () {
+          card.remove()
+        }
+      }
+
+      // ====== POPUP FORM ======
+      const popup = document.getElementById('popup')
+      const formBtn = document.getElementById('form_btn')
+
+      formBtn.onclick = function () {
+        popup.style.display = 'flex'
+      }
+
+      function tutupPopup() {
+        popup.style.display = 'none'
+      }
+
+      // ====== PEMBACA KOM ======
+      const nimBtn = document.getElementById('nim_btn')
+      nim_btn.onclick = function () {
+        let nim = prompt('Masukkan NIM Mahasiswa TI:')
+        let TigaDigit = nim % 1000
+
+        if (nim === '' || isNaN(nim)) {
+          alert('input tidak valid!')
+        } else if (TigaDigit % 3 == 0) {
+          alert('Nim ' + nim + ' Berada di KOM C')
+        } else if (TigaDigit % 3 == 2) {
+          alert('Nim ' + nim + ' Berada di KOM B')
+        } else {
+          alert('Nim ' + nim + ' Berada di KOM A')
+        }
+      }
+    </script>
+  </body>
+</html>
